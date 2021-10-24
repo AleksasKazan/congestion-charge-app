@@ -1,0 +1,7 @@
+{"Id":"7241dc1f-4e23-4e8e-8ce3-83eb0c6f5a34","Name":"Car","VehicleType":0,"Start":"2008-04-24T11:32:00","End":"2008-04-24T14:42:00"}
+{"Id":"d337fd67-56f4-4cc7-a837-889976ebf68c","Name":"Motorbike","VehicleType":1,"Start":"2008-04-24T17:00:00","End":"2008-04-24T22:11:00"}
+{"Id":"dc60739a-f9cd-43fe-963b-f97ea23ef78f","Name":"Van","VehicleType":0,"Start":"2008-04-25T10:23:00","End":"2008-04-28T09:02:00"}
+{"Id":"2bacd5cd-f61b-4361-8de2-6f716755c65f","Name":"Motorbike2","VehicleType":1,"Start":"2008-04-25T10:23:00","End":"2008-04-28T09:02:00"}
+{"Id":"6128cb0b-89f7-420a-9464-5dd3f6554f27","Name":"Van3","VehicleType":0,"Start":"2008-04-25T10:23:00","End":"2008-04-28T09:02:00"}
+{"Id":"0d11a12e-c3bd-49d3-b253-7f398431b2ef","Name":"ABC123","VehicleType":1,"Start":"2021-10-23T10:00:00","End":"2021-10-24T23:00:00"}
+{"Id":"d9f9bd03-d5bc-4a2f-9dfa-71b640e3088c","Name":"BCD999","VehicleType":1,"Start":"2021-10-01T00:00:00","End":"2021-10-22T00:00:00"}
