@@ -8,7 +8,7 @@ namespace Contracts.Entities
         public decimal AmRate { get; set; }
         public decimal PmRate { get; set; }
 
-        public Tuple<decimal, decimal>  GetCharge(VehicleType vehicleType)
+        public Tuple<decimal, decimal> GetCharge(VehicleType vehicleType)
         {
             if (vehicleType == VehicleType.Car)
             {

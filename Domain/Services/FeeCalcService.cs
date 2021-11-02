@@ -14,119 +14,23 @@ namespace Domain.Services
         {
             TimeSpan amTime = TimeSpan.Zero;
             TimeSpan pmTime = TimeSpan.Zero;
-            TimeSpan start = receipt.Start.TimeOfDay;
-            TimeSpan end = receipt.End.TimeOfDay;
 
-            //Single day
-            if (receipt.Start.Date.Equals(receipt.End.Date)
-                && receipt.Start.DayOfWeek != DayOfWeek.Saturday
-                && receipt.Start.DayOfWeek != DayOfWeek.Sunday)
-            {
-                if (start < am7
-                    && end > am7
-                    && end < pm12)
-                {
-                    amTime += end - am7;
-                }
-                else if (start < am7
-                    && end > pm12
-                    && end < pm7)
-                {
-                    amTime += pm12 - am7;
-                    pmTime += end - pm12;
-                }
-                else if (start < am7
-                    && end > pm7)
-                {
-                    amTime += pm12 - am7;
-                    pmTime += pm7 - pm12;
-                }
-                else if (start > am7
-                    && start < pm12
-                    && end > pm7)
-                {
-                    amTime += pm12 - start;
-                    pmTime += pm7 - pm12;
-                }
-                else if (start > am7
-                    && start < pm12
-                    && end < pm12)
-                {
-                    amTime += end - start;
-                }
-                else if (start > am7
-                    && start < pm12
-                    && end > pm12
-                    && end < pm7)
-                {
-                    amTime += pm12 - start;
-                    pmTime += end - pm12;
-                }
-                else if (start > pm12
-                    && start < pm7
-                    && end < pm7)
-                {
-                    pmTime += end - start;
-                }
-                else if (start > pm12
-                    && start < pm7
-                    && end > pm7)
-                {
-                    pmTime += pm7 - start;
-                }
-            }
-
-            //First and Last days
-            else if (!receipt.Start.Date.Equals(receipt.End.Date)
-                && receipt.Start.DayOfWeek != DayOfWeek.Saturday
-                && receipt.Start.DayOfWeek != DayOfWeek.Sunday)
-            {
-                //First day
-                if (start < am7)
-                {
-                    amTime += pm12 - am7;
-                    pmTime += pm7 - pm12;
-                }
-                else if (start > am7
-                    && start < pm12)
-                {
-                    amTime += pm12 - start;
-                    pmTime += pm7 - pm12;
-                }
-                else if (start > pm12
-                    && start < pm7)
-                {
-                    pmTime += (pm7 - start);
-                }
-                //Last day
-                if (end > pm7)
-                {
-                    amTime += pm12 - am7;
-                    pmTime += pm7 - pm12;
-                }
-                else if (end > am7
-                    && end < pm12)
-                {
-                    amTime += end - am7;
-                }
-                else if (end > pm12
-                    && end < pm7)
-                {
-                    amTime += pm12 - am7;
-                    pmTime += end - pm12;
-                }
-            }
-
-            //Full days
-            for (DateTime date = receipt.Start.AddDays(1); date.Date < receipt.End.Date; date = date.AddDays(1))
+            for (DateTime date = receipt.Start.Date; date.Date <= receipt.End.Date; date = date.AddDays(1))
             {
                 if (date.DayOfWeek == DayOfWeek.Saturday
                     || date.DayOfWeek == DayOfWeek.Sunday)
                 {
                     continue;
                 }
-                amTime += pm12 - am7;
-                pmTime += pm7 - pm12;
+
+                TimeSpan start = receipt.Start.Date.Equals(date) && receipt.Start.TimeOfDay > am7 ? receipt.Start.TimeOfDay : am7;
+                TimeSpan end = receipt.End.Date.Equals(date) && receipt.End.TimeOfDay < pm7 ? receipt.End.TimeOfDay : pm7;
+
+                TimeSpan tempStart = start > pm12 ? start : pm12;
+                TimeSpan tempEnd = end < pm12 ? end : pm12;
+
+                amTime += (pm12 - start) > TimeSpan.Zero && end > start ? tempEnd - start : TimeSpan.Zero;
+                pmTime += (end - pm12) > TimeSpan.Zero ? end - tempStart : TimeSpan.Zero;
             }
 
             decimal amCharge = Math.Floor((decimal)amTime.TotalHours * receipt.AmRate * 10) / 10;
